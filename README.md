@@ -1,1 +1,1 @@
-# Funding-Rounds-Twitter-Bot
+# Fintwit-Alert-Twitter-Bot
