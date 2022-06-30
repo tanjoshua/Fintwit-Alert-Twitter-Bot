@@ -1,5 +1,6 @@
 require('dotenv').config();
 const Twit = require('twit');
+const { addToBacklog } = require('../db/helpers');
 
 const T = new Twit({
     consumer_key: process.env.CONSUMER_KEY,
@@ -8,8 +9,15 @@ const T = new Twit({
     access_token_secret: process.env.ACCESS_TOKEN_SECRET,
 })
 
+
 const postTweet = async (tweet) => {
-    return T.post("statuses/update",  { status: tweet })
+    try {
+        await T.post("statuses/update",  { status: tweet })
+        console.log(`TWEETED: ${data.text}`)
+    } catch (e) {
+        console.log("Failed to tweet, pushing to backlog");
+        addToBacklog(tweet);
+    }
 }
 
 const getUsers = async (user) => {

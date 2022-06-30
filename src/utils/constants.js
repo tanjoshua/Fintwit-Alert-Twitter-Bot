@@ -4,4 +4,8 @@ const ACCOUNTS = {
    "BillAckman": "880412538625810432"
 }
 
-module.exports = {ACCOUNTS}
+const DESCRIPTIONS = {
+    "880412538625810432": "CEO of Pershing Square Capital Management"
+}
+
+module.exports = {ACCOUNTS, DESCRIPTIONS}

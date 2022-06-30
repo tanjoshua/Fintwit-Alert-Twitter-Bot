@@ -15,7 +15,6 @@ const insertFollowing = async (userId, followingId) => {
 const isFollowingExists = async (userId, followingId) => {
     const res = await pool.query('SELECT * FROM following WHERE user_id=$1 AND following_id=$2', [userId], followingId)
     return !!res.rowCount
-
 }
 
 const getTweetBacklog = async () => {
@@ -39,5 +38,5 @@ module.exports = {
     isFollowingExists,
     getTweetBacklog,
     addToBacklog,
-    removeFromBacklogById,
+    removeFromBacklogById
 }
