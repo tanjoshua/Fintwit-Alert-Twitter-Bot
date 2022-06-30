@@ -1,8 +1,10 @@
-const { tweet } = require("./src/utils/twit");
+const { ACCOUNTS } = require("./src/utils/constants");
+const { tweet, getUsers, getUserId, getFollowing, getUserFromId } = require("./src/utils/twit");
 
 const test = async () => {
-    await tweet("yo");
-    console.log('tweeted');
+   // const input = prompt();
+   const res = await getUserFromId(ACCOUNTS["BillAckman"]);
+   console.log(res);
 }
 
 test();

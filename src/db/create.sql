@@ -1,0 +1,9 @@
+CREATE TABLE following(
+    user_id TEXT NOT NULL,
+    following_id NOT NULL
+);
+
+CREATE TABLE BACKLOG(
+    ID SERIAL PRIMARY KEY,
+    TWEET TEXT NOT NULL
+);
