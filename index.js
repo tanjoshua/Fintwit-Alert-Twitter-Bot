@@ -1,3 +1,4 @@
+const { getAllFollowing } = require("./src/db/helpers");
 const { ACCOUNTS } = require("./src/utils/constants");
 const { tweet, getUsers, getUserId, getFollowing, getUserFromId } = require("./src/utils/twit");
 

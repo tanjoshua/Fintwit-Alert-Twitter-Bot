@@ -1,13 +1,24 @@
 const { DESCRIPTIONS } = require("./constants");
 const { getUserFromId } = require("./twit")
 
-const generateFollowingTweet = async (userId, followingId) => {
-    const user = await getUserFromId(userId);
+const generateFollowingTweet = async (userId, screenName, followingId) => {
     const following = await getUserFromId(followingId);
     const userDescription = DESCRIPTIONS[userId] ? `(${DESCRIPTIONS[userId]}) `: ""
 
-    const tweet = `@${user.screen_name} ${userDescription}is now following @${following.screen_name}`
+    const tweet = `🧐 @${screenName} ${userDescription}is now following @${following.screen_name}`
     return tweet
 }
 
-module.exports = {generateFollowingTweet}
+const generateUnfollowTweet = async (userId, screenName, followingId) => {
+    const following = await getUserFromId(followingId);
+    if (!following) {
+        // user doesn't exist
+        return null;
+    }
+    const userDescription = DESCRIPTIONS[userId] ? `(${DESCRIPTIONS[userId]}) `: ""
+
+    const tweet = `🤨 @${screenName} ${userDescription} has unfollowed @${following.screen_name}`
+    return tweet;
+}
+
+module.exports = {generateFollowingTweet, generateUnfollowTweet}

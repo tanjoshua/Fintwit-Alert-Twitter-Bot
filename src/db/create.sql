@@ -1,6 +1,7 @@
 CREATE TABLE following(
+    screen_name TEXT,
     user_id TEXT NOT NULL,
-    following_id NOT NULL
+    following_id TEXT NOT NULL
 );
 
 CREATE TABLE BACKLOG(

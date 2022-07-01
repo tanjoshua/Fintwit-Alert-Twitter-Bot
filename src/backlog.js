@@ -16,6 +16,7 @@ const clearBacklog = async () => {
                 console.log(`TWEETED: ${tweet}`);
             } catch {
                 console.log("Failed to tweet, leave in backlog");
+                break;
             }
         }
     } else {
