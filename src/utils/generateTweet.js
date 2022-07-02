@@ -3,6 +3,7 @@ const { getUserFromId } = require("./twit")
 
 const generateFollowingTweet = async (userId, screenName, followingId) => {
     const following = await getUserFromId(followingId);
+
     const userDescription = DESCRIPTIONS[userId] ? `(${DESCRIPTIONS[userId]}) `: ""
 
     const tweet = `🧐 @${screenName} ${userDescription}is now following @${following.screen_name}`
@@ -11,10 +12,7 @@ const generateFollowingTweet = async (userId, screenName, followingId) => {
 
 const generateUnfollowTweet = async (userId, screenName, followingId) => {
     const following = await getUserFromId(followingId);
-    if (!following) {
-        // user doesn't exist
-        return null;
-    }
+    
     const userDescription = DESCRIPTIONS[userId] ? `(${DESCRIPTIONS[userId]}) `: ""
 
     const tweet = `🤨 @${screenName} ${userDescription} has unfollowed @${following.screen_name}`

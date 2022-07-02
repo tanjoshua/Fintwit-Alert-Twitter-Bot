@@ -11,38 +11,54 @@ const tweetFollowings = async (userId) => {
         storedFollowings = await getAllFollowing(userId);
         followings = await getFollowing(userId);
         user = await getUserFromId(userId);
-    } catch {
+    } catch (e) {
+        if (e.statusCode == 429) {
+            console.log('RATE LIMITED');
+        }
         return;
     }
 
     const {screen_name: screenName, name} = user
 
-    // check unfollows
-    for (storedFollowing of storedFollowings) {
-        storedFollowingId = parseInt(storedFollowing.following_id)
-        if (!followings.includes(storedFollowingId)) {
-            const unfollowTweet = await generateUnfollowTweet(userId, screenName, storedFollowingId);
-            if (unfollowTweet) {
-                console.log(unfollowTweet);
-                // postTweet(tweet); // can be async
+    const newFollowings = new Set();
+    for (let followingId of followings) {
+        newFollowings.add(followingId.toString())
+    }
+
+    // check unfollowing
+    for (let storedFollowing of storedFollowings) {
+        const storedFollowingId = storedFollowing.following_id
+        if (!newFollowings.has(storedFollowingId)) {
+            try {
+                const unfollowTweet = await generateUnfollowTweet(userId, screenName, storedFollowingId)  
+                removeFollowing(userId, storedFollowingId); // can be async
+                postTweet(tweet); // can be async
+            } catch (e) {
+                if (e.statusCode == 429) {
+                    console.log('RATE LIMITED')
+                    return; // return if rate limited
+                } else if (e.statusCode == 404) {
+                    console.log(`Unfollowing: ${userId} does not exist`)
+                    removeFollowing(userId, storedFollowingId)
+                }
             }
-            removeFollowing(userId, storedFollowingId); // can be async
         }
     }
-    
+
     // check following
-    for (followingId of followings) {
+    for (let followingId of followings) {
+        newFollowings.add(followingId.toString())
         const wasProcessed = await isFollowingExists(userId, followingId);
         if (!wasProcessed) {
             // can tweet async
             try {
                 const tweet = await generateFollowingTweet(userId, screenName, followingId);
                 insertFollowing(screenName, userId, followingId); // can be async
-                console.log(tweet)
-                // postTweet(tweet); // can be async
+                postTweet(tweet); // can be async
             } catch (e) {
-                console.log(e)
-                console.log("Failed to generate tweet")
+                if (e.statusCode == 404) {
+                    console.log(`Following: ${followingId} does not exist`)
+                }
             }
         } else {
             // since sorted by recent, can break if already processed
@@ -50,6 +66,7 @@ const tweetFollowings = async (userId) => {
         }
     }
 
+    
 }
 
 const tweetAllFollowings = async () => {

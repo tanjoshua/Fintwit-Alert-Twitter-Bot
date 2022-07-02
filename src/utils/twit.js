@@ -34,15 +34,11 @@ const getFollowing = async (userId) => {
 }
 
 const getUserFromId = async (userId) => {
-    try {
-        const res = await T.get("users/lookup", {user_id: userId})
-        if (res?.data && res.data.length > 0) {
-            return res.data[0];
-        } else {
-            return null
-        }
-    } catch {
-        return null;
+    const res = await T.get("users/lookup", {user_id: userId})
+    if (res?.data && res.data.length > 0) {
+        return res.data[0];
+    } else {
+        return null
     }
 }
 
