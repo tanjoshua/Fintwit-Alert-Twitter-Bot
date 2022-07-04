@@ -19,6 +19,7 @@ const tweetFollowings = async (userId) => {
     }
 
     const {screen_name: screenName, name} = user
+    console.log(`Checking for ${screenName}...`)
 
     const newFollowings = new Set();
     for (let followingId of followings) {
@@ -32,7 +33,7 @@ const tweetFollowings = async (userId) => {
             try {
                 const unfollowTweet = await generateUnfollowTweet(userId, screenName, storedFollowingId)  
                 removeFollowing(userId, storedFollowingId); // can be async
-                postTweet(tweet); // can be async
+                postTweet(unfollowTweet); // can be async
             } catch (e) {
                 if (e.statusCode == 429) {
                     console.log('RATE LIMITED')

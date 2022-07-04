@@ -2,7 +2,7 @@
 // maps id to screen name
 const ACCOUNTS = {
    "BillAckman": "880412538625810432",
-   "Joshua": "934388323518267392"
+   "asyncjosh": "934388323518267392"
 }
 
 const DESCRIPTIONS = {
