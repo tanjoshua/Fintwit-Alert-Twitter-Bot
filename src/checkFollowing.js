@@ -1,7 +1,7 @@
 const { isFollowingExists, insertFollowing, getAllFollowing, removeFollowing } = require("./db/helpers");
 const { ACCOUNTS } = require("./utils/constants");
 const { generateFollowingTweet, generateUnfollowTweet } = require("./utils/generateTweet");
-const { getFollowing, postTweet, getUserFromId } = require("./utils/twit")
+const { getFollowing, postTweet, getUserFromId } = require("./utils/tweet")
 
 const tweetFollowings = async (userId) => {
     let user;

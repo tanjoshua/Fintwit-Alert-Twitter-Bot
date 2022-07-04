@@ -19,6 +19,7 @@
   "dependencies": {
     "dotenv": "^16.0.1",
     "pg": "^8.7.3",
-    "twit": "^2.2.11"
+    "twit": "^2.2.11",
+    "twitter-api-v2": "^1.12.3"
   }
 }

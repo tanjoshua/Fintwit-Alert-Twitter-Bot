@@ -12,8 +12,8 @@ const T = new Twit({
 
 const postTweet = async (tweet) => {
     try {
-        await T.post("statuses/update",  { status: tweet })
-        console.log(`TWEETED: ${data.text}`)
+        // await T.post("statuses/update",  { status: tweet })
+        console.log(`TWEETED: ${tweet}`)
     } catch (e) {
         console.log("Failed to tweet, pushing to backlog");
         addToBacklog(tweet);
