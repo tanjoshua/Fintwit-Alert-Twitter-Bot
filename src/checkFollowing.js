@@ -3,7 +3,7 @@ const { ACCOUNTS } = require("./utils/constants");
 const { generateFollowingTweet, generateUnfollowTweet } = require("./utils/generateTweet");
 const { getFollowing, postTweet, getUserFromId } = require("./utils/tweet")
 
-const tweetFollowings = async (userId) => {
+const tweetFollowings = async (userId, init=false) => {
     let user;
     let followings;
     let storedFollowings
@@ -33,7 +33,12 @@ const tweetFollowings = async (userId) => {
             try {
                 const unfollowTweet = await generateUnfollowTweet(userId, screenName, storedFollowingId)  
                 removeFollowing(userId, storedFollowingId); // can be async
-                postTweet(unfollowTweet); // can be async
+                if (init) {
+                    // do not post tweet
+                    console.log(`INIT - DID NOT TWEET: ${unfollowTweet}`);
+                } else {
+                    postTweet(unfollowTweet); // can be async
+                }
             } catch (e) {
                 if (e.statusCode == 429) {
                     console.log('RATE LIMITED')
@@ -55,7 +60,12 @@ const tweetFollowings = async (userId) => {
             try {
                 const tweet = await generateFollowingTweet(userId, screenName, followingId);
                 insertFollowing(screenName, userId, followingId); // can be async
-                postTweet(tweet); // can be async
+                if (init) {
+                    // don't post tweet
+                    console.log(`INIT - DID NOT TWEET: ${tweet}`)
+                } else {
+                    postTweet(tweet); // can be async
+                }
             } catch (e) {
                 if (e.statusCode == 404) {
                     console.log(`Following: ${followingId} does not exist`)
